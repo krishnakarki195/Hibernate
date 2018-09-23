@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
@@ -55,6 +56,9 @@ public class UserDetails {
 	@GenericGenerator(name = "inc-gen", strategy ="increment")
 	@CollectionId(columns={@Column(name="bike_id")}, generator="inc-gen", type=@Type(type="long"))
 	private Collection<Bike> bikes = new ArrayList<Bike>();
+	
+	@OneToOne
+	private Vehicle vehicle;
 
 	public int getUserId() {
 		return userId;
@@ -103,6 +107,15 @@ public class UserDetails {
 	public void setBikes(Collection<Bike> bikes) {
 		this.bikes = bikes;
 	}
+
+	public Vehicle getVehicle() {
+		return vehicle;
+	}
+
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
+	}
+	
 	
 
 }

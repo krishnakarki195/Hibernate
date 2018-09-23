@@ -11,6 +11,7 @@ import com.model.Address;
 import com.model.Bike;
 import com.model.Car;
 import com.model.UserDetails;
+import com.model.Vehicle;
 
 public class HibernateTest {
 	
@@ -21,6 +22,7 @@ public class HibernateTest {
 		Address officeAddress = new Address();
 		Set<Car> car = new HashSet<>();
 		Collection<Bike> bike = new ArrayList<>();
+		Vehicle vehicle = new Vehicle(1001,"Tesla");
 		
 		car.add(new Car("Camry", "Toyota"));
 		car.add(new Car("Corrola", "Toyota"));
@@ -49,16 +51,15 @@ public class HibernateTest {
 		user.setOfficeAddress(officeAddress);
 		user.setCars(car);
 		user.setBikes(bike);
+		user.setVehicle(vehicle);
 		
 		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-		//session.save(user);
-		//session.getTransaction().commit();
-		user = null;
-		user = (UserDetails) session.get(UserDetails.class, 1);
+		session.save(user);
+		session.save(vehicle);
+		session.getTransaction().commit();
 		session.close();
-		System.out.println(user.getBikes().size());
 		
 	}
 

@@ -33,6 +33,7 @@
       
       <!-- Names the annotated entity class -->
       <mapping class = "com.model.UserDetails" />
+      <mapping class = "com.model.Vehicle" />
       
    </session-factory>
 </hibernate-configuration>
