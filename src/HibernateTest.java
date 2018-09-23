@@ -10,6 +10,7 @@ import org.hibernate.cfg.Configuration;
 import com.model.Address;
 import com.model.Bike;
 import com.model.Car;
+import com.model.Company;
 import com.model.UserDetails;
 import com.model.Vehicle;
 
@@ -23,6 +24,8 @@ public class HibernateTest {
 		Set<Car> car = new HashSet<>();
 		Collection<Bike> bike = new ArrayList<>();
 		Vehicle vehicle = new Vehicle(1001,"Tesla");
+		Company company1 = new Company(1001,"Comp1");
+		Company company2 = new Company(1002,"Comp2");
 		
 		car.add(new Car("Camry", "Toyota"));
 		car.add(new Car("Corrola", "Toyota"));
@@ -52,12 +55,18 @@ public class HibernateTest {
 		user.setCars(car);
 		user.setBikes(bike);
 		user.setVehicle(vehicle);
+		user.getCompany().add(company1);
+		user.getCompany().add(company2);
+		company1.setUserDetails(user);
+		company2.setUserDetails(user);
 		
 		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		session.save(user);
 		session.save(vehicle);
+		session.save(company1);
+		session.save(company2);
 		session.getTransaction().commit();
 		session.close();
 		

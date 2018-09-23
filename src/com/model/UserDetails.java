@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.CollectionId;
@@ -27,7 +28,7 @@ import org.hibernate.annotations.Type;
 public class UserDetails {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator="inc-gen")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "inc-gen")
 	private int userId;
 
 	private String userName;
@@ -51,14 +52,20 @@ public class UserDetails {
 	@ElementCollection
 	private Set<Car> cars = new HashSet<>();
 
-	@ElementCollection(fetch=FetchType.EAGER)
-	@JoinTable(name="Bike", joinColumns=@JoinColumn(name="userId"))
-	@GenericGenerator(name = "inc-gen", strategy ="increment")
-	@CollectionId(columns={@Column(name="bike_id")}, generator="inc-gen", type=@Type(type="long"))
+	@ElementCollection(fetch = FetchType.EAGER)
+	@JoinTable(name = "Bike", joinColumns = @JoinColumn(name = "userId"))
+	@GenericGenerator(name = "inc-gen", strategy = "increment")
+	@CollectionId(columns = { @Column(name = "bike_id") }, generator = "inc-gen", type = @Type(type = "long"))
 	private Collection<Bike> bikes = new ArrayList<Bike>();
-	
+
 	@OneToOne
 	private Vehicle vehicle;
+
+	@OneToMany
+	@JoinTable(name="user_company",joinColumns=@JoinColumn(name="userId"),
+				inverseJoinColumns=@JoinColumn(name="companyId")
+	)
+	private Collection<Company> company = new ArrayList<Company>();
 
 	public int getUserId() {
 		return userId;
@@ -115,7 +122,13 @@ public class UserDetails {
 	public void setVehicle(Vehicle vehicle) {
 		this.vehicle = vehicle;
 	}
-	
-	
+
+	public Collection<Company> getCompany() {
+		return company;
+	}
+
+	public void setCompany(Collection<Company> company) {
+		this.company = company;
+	}
 
 }
