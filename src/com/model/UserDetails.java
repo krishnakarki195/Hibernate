@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,7 +50,7 @@ public class UserDetails {
 	@ElementCollection
 	private Set<Car> cars = new HashSet<>();
 
-	@ElementCollection
+	@ElementCollection(fetch=FetchType.EAGER)
 	@JoinTable(name="Bike", joinColumns=@JoinColumn(name="userId"))
 	@GenericGenerator(name = "inc-gen", strategy ="increment")
 	@CollectionId(columns={@Column(name="bike_id")}, generator="inc-gen", type=@Type(type="long"))

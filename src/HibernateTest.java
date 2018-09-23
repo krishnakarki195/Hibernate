@@ -53,9 +53,12 @@ public class HibernateTest {
 		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-		session.save(user);
-		session.getTransaction().commit();
+		//session.save(user);
+		//session.getTransaction().commit();
+		user = null;
+		user = (UserDetails) session.get(UserDetails.class, 1);
 		session.close();
+		System.out.println(user.getBikes().size());
 		
 	}
 
