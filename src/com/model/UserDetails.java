@@ -1,9 +1,10 @@
 package com.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.Generated;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -13,12 +14,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 @Entity
 public class UserDetails {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator="inc-gen")
 	private int userId;
 
 	private String userName;
@@ -41,6 +48,12 @@ public class UserDetails {
 
 	@ElementCollection
 	private Set<Car> cars = new HashSet<>();
+
+	@ElementCollection
+	@JoinTable(name="Bike", joinColumns=@JoinColumn(name="userId"))
+	@GenericGenerator(name = "inc-gen", strategy ="increment")
+	@CollectionId(columns={@Column(name="bike_id")}, generator="inc-gen", type=@Type(type="long"))
+	private Collection<Bike> bikes = new ArrayList<Bike>();
 
 	public int getUserId() {
 		return userId;
@@ -81,5 +94,14 @@ public class UserDetails {
 	public void setCars(Set<Car> cars) {
 		this.cars = cars;
 	}
+
+	public Collection<Bike> getBikes() {
+		return bikes;
+	}
+
+	public void setBikes(Collection<Bike> bikes) {
+		this.bikes = bikes;
+	}
+	
 
 }
