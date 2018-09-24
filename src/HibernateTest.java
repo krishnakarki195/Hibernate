@@ -9,6 +9,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.model.Address;
 import com.model.Bike;
+import com.model.Book;
 import com.model.Car;
 import com.model.Company;
 import com.model.UserDetails;
@@ -22,7 +23,10 @@ public class HibernateTest {
 		Address homeAddress = new Address();
 		Address officeAddress = new Address();
 		Set<Car> car = new HashSet<>();
-		Collection<Bike> bike = new ArrayList<>();
+		Collection<Bike> bike = new ArrayList<Bike>();
+		Book book1 = new Book();
+		Book book2 = new Book();
+		
 		Vehicle vehicle = new Vehicle(1001,"Tesla");
 		Company company1 = new Company(1001,"Comp1");
 		Company company2 = new Company(1002,"Comp2");
@@ -57,8 +61,18 @@ public class HibernateTest {
 		user.setVehicle(vehicle);
 		user.getCompany().add(company1);
 		user.getCompany().add(company2);
+		user.getBooks().add(book1);
+		user.getBooks().add(book2);
 		company1.setUserDetails(user);
 		company2.setUserDetails(user);
+		book1.setBookId(100);
+		book1.setBookName("Mathmatics");
+		book1.setIsbn("ISBN10001");
+		book1.getAuthors().add(user);
+		book2.setBookId(101);
+		book2.setBookName("Science");
+		book2.setIsbn("ISBN10002");
+		book2.getAuthors().add(user);
 		
 		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 		Session session = sessionFactory.openSession();

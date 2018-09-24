@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -66,6 +67,9 @@ public class UserDetails {
 				inverseJoinColumns=@JoinColumn(name="companyId")
 	)
 	private Collection<Company> company = new ArrayList<Company>();
+	
+	@ManyToMany
+	private Collection<Book> books = new ArrayList<Book>();
 
 	public int getUserId() {
 		return userId;
@@ -130,5 +134,14 @@ public class UserDetails {
 	public void setCompany(Collection<Company> company) {
 		this.company = company;
 	}
+
+	public Collection<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(Collection<Book> books) {
+		this.books = books;
+	}
+	
 
 }
